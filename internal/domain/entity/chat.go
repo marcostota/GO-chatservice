@@ -19,7 +19,7 @@ type ChatConfig struct {
 
 type Chat struct {
 	ID                   string
-	UserId               string
+	UserID               string
 	InitialSystemMessage *Message
 	Messages             []*Message
 	ErasedMessages       []*Message
@@ -31,7 +31,7 @@ type Chat struct {
 func NewChat(userID string, initialSystemMessage *Message, chatConfig *ChatConfig) (*Chat, error) {
 	chat := &Chat{
 		ID:                   uuid.New().String(),
-		UserId:               userID,
+		UserID:               userID,
 		InitialSystemMessage: initialSystemMessage,
 		Status:               "active",
 		Config:               chatConfig,
@@ -47,13 +47,13 @@ func NewChat(userID string, initialSystemMessage *Message, chatConfig *ChatConfi
 }
 
 func (c *Chat) Validate() error {
-	if c.UserId == "" {
+	if c.UserID == "" {
 		return errors.New("user id is empty")
 	}
 	if c.Status != "active" && c.Status != "ended" {
 		return errors.New("Invalid status")
 	}
-	if c.Config.Temperature < 1 || c.Config.Temperature > 2 {
+	if c.Config.Temperature < 0 || c.Config.Temperature > 2 {
 		return errors.New("invalid temperature")
 	}
 	return nil
